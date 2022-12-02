@@ -1,0 +1,190 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Productos
+  description: API para gestionar productos
+
+paths:
+  /productos:
+    post:
+      description: Crear un producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrearProducto'
+      responses:
+        '201':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+
+    get:
+      description: Retorna la lista de productos            
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producto'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+  /productos/{idProducto}:
+    get:
+      description: Retorna un producto por id
+      parameters:
+        - $ref: '#/components/parameters/idProducto'
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '404':
+          description: El producto no existe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNoEncontrado'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+    delete:
+      description: Eliminar un producto por id
+      parameters:
+        - $ref: '#/components/parameters/idProducto'
+      responses:
+        '204':
+          description: Respuesta exitosa
+        '404':
+          description: El producto no existe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNoEncontrado'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+          
+          
+components: 
+  schemas:
+    CrearProducto:
+      type: object
+      required:
+        - nombre
+        - precio
+      properties:
+        nombre:
+          type: string
+          description: Nombre del producto
+          maxLength: 100
+          example: Devanador Ovillador De Lana Manual
+        descripcion:
+          type: string
+          description: Descripción del producto
+          maxLength: 5000
+          example: > 
+            **** OVILLADOR MANUAL ****
+            Ovillador - Devanador Manual de excelente calidad.
+            Incluye en el precio el Ovillador y el porta madeja.
+            Con este Ovillador conseguirás que tus ovillos sean perfectos.
+            
+            Industria Nacional
+        precio:
+          type: number
+          description: Precio del producto
+          example: 9820.99
+    Producto:
+      type: object
+      required:
+        - id
+        - nombre
+        - precio
+        - fechaCreacion
+      properties:
+        id:
+          type: integer
+          description: Id del producto
+          example: 12
+        nombre:
+          type: string
+          description: Nombre del producto
+          maxLength: 100
+          example: Devanador Ovillador De Lana Manual
+        descripcion:
+          type: string
+          description: Descripción del producto
+          maxLength: 5000
+          example: > 
+            **** OVILLADOR MANUAL ****
+            Ovillador - Devanador Manual de excelente calidad.
+            Incluye en el precio el Ovillador y el porta madeja.
+            Con este Ovillador conseguirás que tus ovillos sean perfectos.
+            
+            Industria Nacional
+        precio:
+          type: number
+          description: Precio del producto
+          example: 9820.99
+        fechaCreacion:
+          type: string
+          format: date-time
+          example: "2022-04-07T01:35:22.413Z"
+    ErrorNoEncontrado:
+      type: object
+      required:
+        - codigo
+      properties:
+        codigo:
+          type: string
+          description: Código de error.
+          example: PRODUCTO_NO_EXISTE
+        mensaje:
+          type: string
+          description: Mensaje de error
+          example: El producto(id=12) no existe
+    ErrorGenerico:
+      type: object
+      required:
+        - codigo
+      properties:
+        codigo:
+          type: string
+          description: Código de error.
+          example: ERROR_DESCONOCIDO 
+        mensaje:
+          type: string
+          description: Mensaje de error
+          example: Se produjo un error desconocido
+  parameters:
+    idProducto:
+      in: path
+      name: idProducto
+      schema:
+        type: integer
+      required: true
+      description: Id del producto
