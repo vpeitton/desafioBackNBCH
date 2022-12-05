@@ -4,24 +4,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NO_CONTENT)
-public class ErrorNoEncontrado extends RuntimeException{
+public class RecursoNoEncontrado extends RuntimeException{
 
-    public ErrorNoEncontrado() {
+    public RecursoNoEncontrado() {
     }
   
-    public ErrorNoEncontrado(String message) {
+    public RecursoNoEncontrado(String message) {
         super(message);
     }
 
-    public ErrorNoEncontrado(Throwable cause) {
+    public RecursoNoEncontrado(Throwable cause) {
         super(cause);
     }
 
-    public ErrorNoEncontrado(String message, Throwable cause) {
+    public RecursoNoEncontrado(String message, Throwable cause) {
         super(message, cause);
     }
     
-    public ErrorNoEncontrado(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public RecursoNoEncontrado(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

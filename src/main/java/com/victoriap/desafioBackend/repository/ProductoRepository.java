@@ -1,6 +1,6 @@
 package com.victoriap.desafioBackend.repository;
 
-import com.victoriap.desafioBackend.model.entity.Producto;
+import com.victoriap.desafioBackend.model.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;

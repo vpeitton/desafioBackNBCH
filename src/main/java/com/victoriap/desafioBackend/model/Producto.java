@@ -1,42 +1,49 @@
-package com.victoriap.desafioBackend.model.entity;
+package com.victoriap.desafioBackend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serial;
-import java.io.Serializable;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Schema
+@AllArgsConstructor
 @Table(name = "producto")
-public class Producto implements Serializable {
+public class Producto {
 
-    @Serial
-    private static final Long serialVersionUID = 1L;
 
     @Id
+    @NotBlank
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer idProducto;
+    private Integer idProducto;
 
     @Column(name = "nombre", nullable = false, length = 100)
     @NotBlank
-    @Size(min = 0, max = 30)
-    String nombre;
+    @Size(min = 0, max = 100)
+    private String nombre;
 
     @Column(name = "descripcion", nullable = false, length = 5000)
     @NotBlank
-    @Size(min = 0, max = 50)
-    String descripcion;
+    @Size(min = 0, max = 5000)
+    private String descripcion;
 
+    @NotBlank
     @Column(name = "precio", nullable = false)
-    Double precio;
+    private Double precio;
 
     @Column(name = "fechaCreacion", nullable = false)
+    @NotBlank
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     @CreationTimestamp
     private LocalDateTime fechaCreacion;
 

@@ -1,10 +1,10 @@
 package com.victoriap.desafioBackend.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.victoriap.desafioBackend.exception.ErrorNoEncontrado;
+import com.victoriap.desafioBackend.exception.RecursoNoEncontrado;
 import com.victoriap.desafioBackend.exception.FailedPreconditionRestException;
 import com.victoriap.desafioBackend.exception.InternalServerException;
-import com.victoriap.desafioBackend.model.entity.Producto;
+import com.victoriap.desafioBackend.model.Producto;
 import com.victoriap.desafioBackend.repository.ProductoRepository;
 import com.victoriap.desafioBackend.service.ProductoService;
 import org.slf4j.Logger;
@@ -72,12 +72,12 @@ public class ProductoServiceImpl implements ProductoService {
     public List<Producto> listaProductos() {
         List<Producto> lista = new ArrayList<>();
         try{
-            lista= repository.findAll((Sort.by("idIdioma").and(Sort.by("etiqueta").and(Sort.by("pantalla")))));
+            lista= repository.findAll();
         }catch (Exception e){
             throw new InternalServerException("Falla al hacer la consulta a la BD");
         }
         if(lista!=null && lista.isEmpty())
-            throw new ErrorNoEncontrado("No hay registros");
+            throw new RecursoNoEncontrado("No hay registros");
         return lista;
     }
 }

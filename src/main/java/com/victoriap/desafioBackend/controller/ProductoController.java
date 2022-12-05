@@ -1,6 +1,6 @@
 package com.victoriap.desafioBackend.controller;
 
-import com.victoriap.desafioBackend.model.entity.Producto;
+import com.victoriap.desafioBackend.model.Producto;
 import com.victoriap.desafioBackend.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/DesafioBackend")
+@RequestMapping
 @Tag(name = "Api productos", description = "APIs Rest de Producto ")
 public class ProductoController {
     
@@ -31,8 +31,9 @@ public class ProductoController {
             @ApiResponse(responseCode  = "500", description = "Error interno del servidor")
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public void alta (@RequestBody Producto producto){
+    public ResponseEntity alta (@RequestBody Producto producto){
         service.altaProducto(producto);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/Productos/{idProducto}")
@@ -42,8 +43,9 @@ public class ProductoController {
             @ApiResponse(responseCode  = "404", description = "El producto no existe"),
             @ApiResponse(responseCode  = "500", description = "Error interno del servidor")
     })
-    public void baja(@PathVariable Integer idProducto){
+    public ResponseEntity<?> baja(@PathVariable Integer idProducto){
         service.bajaProducto(idProducto);
+        return ResponseEntity.ok("El producto con ID " + idProducto + " ha sido eliminado exitosamente");
     }
 
     @GetMapping("/Productos/{idProducto}")
@@ -56,7 +58,7 @@ public class ProductoController {
             @ApiResponse(responseCode  = "500", description = "Error interno del servidor",
                     content = @Content)
     })
-    public ResponseEntity findById(@PathVariable int idProducto){
+    public ResponseEntity<?> findById(@PathVariable int idProducto){
         return ResponseEntity.ok(service.findById(idProducto));
     }
 
@@ -66,7 +68,7 @@ public class ProductoController {
             @ApiResponse(responseCode  = "200", description = "Ok"),
             @ApiResponse(responseCode  = "500", description = "Error del servidor")
     })
-    public ResponseEntity<List<Producto>> listaProductos(){
+    public ResponseEntity<?> listaProductos(){
         List<Producto> res = service.listaProductos();
         return ResponseEntity.ok(res);
     }
