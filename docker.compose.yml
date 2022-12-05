@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+
+  mysql-development:
+    image: mysql:8.0.17
+    environment:
+      MYSQL_ROOT_PASSWORD: termo1320
+      MYSQL_DATABASE: desafiobackend
+    ports:
+      - "3308:3306"
+
+  spring-boot:
+    container_name: desafiobackend-nbch
+    build: .
+
+    ports:
+      - '8090:8080'
+      - '5005:5005'
+
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
