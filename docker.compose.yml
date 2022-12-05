@@ -2,21 +2,55 @@ version: '3.8'
 
 services:
 
-  mysql-development:
-    image: mysql:8.0.17
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:5.7
+    restart: unless-stopped
+    networks:
+      - backend-nbch
     environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: termo1320
       MYSQL_ROOT_PASSWORD: termo1320
       MYSQL_DATABASE: desafiobackend
     ports:
       - "3308:3306"
+    expose:
+        - '3306'
+    volumes:
+      - db:/var/lib/mysql
 
   spring-boot:
+    depends_on:
+      - mysqldb
     container_name: desafiobackend-nbch
+    restart: on-failure
+    networks:
+      - backend-nbch
     build: .
+    environment:
+
+      SPRING_APPLICATION_JSON: '{
+                    "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/desafiobackend?useSSL=false",
+                    "spring.datasource.username" : "admin",
+                    "spring.datasource.password" : "termo1320",
+                    "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+                    "spring.jpa.hibernate.ddl-auto" : "create-drop"
+                  }'
 
     ports:
       - '8090:8080'
       - '5005:5005'
 
-    environment:
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    volumes:
+    - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+
+networks:
+  backend-nbch:
+    name: backend-nbch
+
+volumes:
+  db:
+
