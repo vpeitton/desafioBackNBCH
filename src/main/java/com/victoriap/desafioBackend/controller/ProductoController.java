@@ -3,6 +3,8 @@ package com.victoriap.desafioBackend.controller;
 import com.victoriap.desafioBackend.model.entity.Producto;
 import com.victoriap.desafioBackend.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,9 +49,12 @@ public class ProductoController {
     @GetMapping("/Productos/{idProducto}")
     @Operation(description = "encuentra Producto por id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode  = "200", description = "Ok"),
-            @ApiResponse(responseCode  = "404", description = "El producto no existe"),
-            @ApiResponse(responseCode  = "500", description = "Error interno del servidor")
+            @ApiResponse(responseCode  = "200", description = "Ok", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Producto.class)) }),
+            @ApiResponse(responseCode  = "404", description = "El producto no existe",
+                    content = @Content),
+            @ApiResponse(responseCode  = "500", description = "Error interno del servidor",
+                    content = @Content)
     })
     public ResponseEntity findById(@PathVariable int idProducto){
         return ResponseEntity.ok(service.findById(idProducto));

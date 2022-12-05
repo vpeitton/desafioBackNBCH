@@ -4,6 +4,8 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,9 +24,13 @@ public class Producto implements Serializable {
     Integer idProducto;
 
     @Column(name = "nombre", nullable = false, length = 100)
+    @NotBlank
+    @Size(min = 0, max = 30)
     String nombre;
 
     @Column(name = "descripcion", nullable = false, length = 5000)
+    @NotBlank
+    @Size(min = 0, max = 50)
     String descripcion;
 
     @Column(name = "precio", nullable = false)
