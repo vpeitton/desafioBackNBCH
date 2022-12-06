@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalHandlerException extends Throwable {
+
     private static final Logger logger = Logger.getLogger(GlobalHandlerException.class);
 
     @ExceptionHandler({ResourceNotFoundException.class})

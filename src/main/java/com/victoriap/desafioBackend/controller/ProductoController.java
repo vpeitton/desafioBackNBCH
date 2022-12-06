@@ -70,7 +70,6 @@ public class ProductoController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> baja(@Parameter(description = "Id del producto a ser eliminado") @PathVariable Integer idProducto) {
-
         try {
             service.bajaProducto(idProducto);
         } catch (Exception e) {

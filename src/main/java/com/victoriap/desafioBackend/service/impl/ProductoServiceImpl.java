@@ -64,7 +64,6 @@ public class ProductoServiceImpl implements ProductoService {
         try {
             producto = Optional.ofNullable(repository.findById(idProducto).orElseThrow(ResourceNotFoundException::new));
             return new ResponseEntity(producto, HttpStatus.OK);
-
         } catch (ResourceNotFoundException e) {
             logger.warn("No hay registros");
             logger.error("No hay registros para el producto con id " + idProducto);
