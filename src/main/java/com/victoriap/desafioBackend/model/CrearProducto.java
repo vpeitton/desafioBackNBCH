@@ -18,5 +18,5 @@ public class CrearProducto {
     private String descripcion;
 
     @NotBlank
-    private float precio;
+    private double precio;
 }

@@ -1,12 +1,13 @@
 #  Desafio Backend NBCH 
 
-Requisitos previos: 
-    Tener instalado Docker Desktop,
+Sistema de API Rest para productos.
 
-Pasos para la ejecucion:
+## Requisitos previos:
+    -Tener instalado Docker Desktop.
 
-Dirigirse a docker.compose.yml y ejecutarlo, esto desplegara dos containers, uno con un motor MySQL y el otro con la rest app.
-Dirigirse a Swagger para probar las APIs
+## Pasos para la ejecucion:
+
+- Dirigirse a docker.compose.yml y ejecutarlo, esto desplegara dos containers, uno con un motor MySQL y el otro con la rest app.
+- Dirigirse a Swagger para probar las APIs (http://localhost:8090/swagger-ui/index.html#)
 
 
-http://localhost:8090/swagger-ui/index.html#
