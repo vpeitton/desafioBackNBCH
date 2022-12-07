@@ -14,20 +14,18 @@ public class GlobalHandlerException extends Throwable {
 
     private static final Logger logger = Logger.getLogger(GlobalHandlerException.class);
 
-    @ExceptionHandler({ResourceNotFoundException.class})
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No se ha encontrado contenido")
-    public ResponseEntity<ErrorNoEncontrado> errorNotFound(ResourceNotFoundException e) {
-        logger.error("RecursoNoEncontrado: " + e.getMessage());
-        ErrorNoEncontrado error = ErrorNoEncontrado.builder().codigo(e.getCode()).mensaje(e.getMessage()).build();
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    @ExceptionHandler(value = NullPointerException.class)
+    public ResponseEntity<ErrorNoEncontrado> badRequestExceptionHandler(NullPointerException e) {
+        ErrorNoEncontrado errorNoEncontrado = ErrorNoEncontrado.builder().codigo("404").mensaje(e.getMessage()).build();
+        logger.error("NotFoundException: " + e.getMessage());
+        return new ResponseEntity<>(errorNoEncontrado, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(InternalServerException.class)
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Error interno del servidor")
-    public ResponseEntity<ErrorGenerico> handleIllegalArgumentException(InternalServerException e) {
-        logger.error("Error interno del servidor: " + e.getMessage());
-        ErrorGenerico error = ErrorGenerico.builder().codigo(e.getStatusText()).mensaje(e.getMessage()).build();
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<ErrorGenerico> runtimeExceptionHandler(RuntimeException e) {
+        ErrorGenerico errorGenerico = ErrorGenerico.builder().codigo("500").mensaje(e.getMessage()).build();
+        logger.error("InternalServerException: "  + e.getMessage());
+        return new ResponseEntity<>(errorGenerico, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
