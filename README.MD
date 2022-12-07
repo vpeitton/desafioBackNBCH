@@ -4,7 +4,6 @@ Sistema de API Rest para productos.
 
 ## Requisitos previos:
     - Tener instalado Docker Desktop.
-    - Tener instalado Postman.
     - Utilizar como IDE IntelliJ IDEA.
 
 ## Pasos para la ejecucion:
