@@ -40,8 +40,6 @@ public class ProductoController {
         this.service = service;
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductoController.class);
-
     @PostMapping("/Productos")
     @Operation(description = "Alta de Producto")
     @ApiResponses(value = {
@@ -72,7 +70,6 @@ public class ProductoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> bajaProducto(@Parameter(description = "Id del producto a ser eliminado") @PathVariable Integer idProducto) {
         service.bajaProducto(idProducto);
-        logger.info("Producto con ID " + idProducto + " eliminado");
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Producto con ID " + idProducto + " eliminado");
     }
 
@@ -89,7 +86,6 @@ public class ProductoController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Optional<Producto>> encuentraPorId(@Parameter(description = "Id del producto a ser buscado") @PathVariable int idProducto) throws ResourceNotFoundException {
         Optional<Producto> producto = service.findById(idProducto);
-        logger.info("Producto ID " + idProducto + "encontrado");
         return ResponseEntity.status(HttpStatus.OK).body(producto);
     }
 
@@ -104,7 +100,6 @@ public class ProductoController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Producto>> listaProductos() {
         List<Producto> listaProductos = service.listaProductos();
-        logger.info("Existe una lista de productos");
         return ResponseEntity.status(HttpStatus.OK).body(listaProductos);
     }
 }
