@@ -10,15 +10,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @EqualsAndHashCode(callSuper=false)
 public class InternalServerException extends RuntimeException {
 
-    private String code;
-    private HttpStatus status;
+    private String statusText;
+    private HttpStatus statusCode;
+    public String message;
 
-    public InternalServerException(String code, HttpStatus status, String message) {
-        super(message);
-        this.code = code;
-        this.status = status;
-    }
+
 
     public InternalServerException(String message) {
+    }
+
+    public InternalServerException(HttpStatus statusCode, String message, String statusText) {
+        super(message);
+        this.statusText = statusText;
+        this.statusCode = statusCode;
+        this.message = message;
     }
 }

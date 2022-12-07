@@ -26,7 +26,7 @@ public class GlobalHandlerException extends Throwable {
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Error interno del servidor")
     public ResponseEntity<ErrorGenerico> handleIllegalArgumentException(InternalServerException e) {
         logger.error("Error interno del servidor: " + e.getMessage());
-        ErrorGenerico error = ErrorGenerico.builder().codigo(e.getCode()).mensaje(e.getMessage()).build();
+        ErrorGenerico error = ErrorGenerico.builder().codigo(e.getStatusText()).mensaje(e.getMessage()).build();
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

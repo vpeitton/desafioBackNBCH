@@ -53,24 +53,28 @@ public class ProductoServiceImpl implements ProductoService {
         }
         try {
             repository.deleteByIdProducto(idProducto);
-        } catch (Exception e) {
-            throw new InternalServerException("Falla al hacer la consulta a la BD");
+
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException(e.getStatusCode(), e.getMessage(), e.getStatusText());
+        } catch (InternalServerException e) {
+            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "Error interno del servidor");
         }
     }
 
     @Override
-    public ResponseEntity findById(Integer idProducto) throws ResourceNotFoundException {
+    public Optional<Producto>  findById(Integer idProducto) throws ResourceNotFoundException {
         Optional<Producto> producto = null;
         try {
             producto = Optional.ofNullable(repository.findById(idProducto).orElseThrow(ResourceNotFoundException::new));
-            return new ResponseEntity(producto, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             logger.warn("No hay registros");
             logger.error("No hay registros para el producto con id " + idProducto);
-            throw new ResourceNotFoundException("No hay registros para el producto con id " + idProducto);
-        }  catch (Exception e) {
-            throw new InternalServerException("Falla al hacer la consulta a la BD");
+            throw new ResourceNotFoundException(HttpStatus.NOT_FOUND, e.getMessage(), e.getStatusText());
+
+        }  catch (InternalServerException e) {
+            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "Error interno del servidor");
         }
+        return producto;
     }
 
     @Override
@@ -78,11 +82,11 @@ public class ProductoServiceImpl implements ProductoService {
         List<Producto> lista = new ArrayList<>();
         try {
             lista = repository.findAll();
-        } catch (Exception e) {
-            throw new InternalServerException("Falla al hacer la consulta a la BD");
+        } catch (InternalServerException e) {
+            throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         }
         if (lista != null && lista.isEmpty())
-            throw new InternalServerException("No hay registros");
+            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "La lista de productos esta vacía");
         return lista;
     }
 }

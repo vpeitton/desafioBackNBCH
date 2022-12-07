@@ -8,17 +8,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class ResourceNotFoundException extends RuntimeException {
-    private String code;
-    private HttpStatus status;
+public class ResourceNotFoundException extends NullPointerException {
+    public HttpStatus statusCode;
+    public String statusText;
+    public String message;
 
-    public ResourceNotFoundException(String code, String message) {
+    public ResourceNotFoundException(HttpStatus statusCode, String message, String statusText) {
         super(message);
-        this.code = code;
+        this.statusCode = statusCode;
+        this.statusText = statusText;
+        this.message = message;
     }
 
-    public ResourceNotFoundException(String code) {
-        this.code = code;
+    public ResourceNotFoundException(String statusText) {
+        this.statusText = statusText;
     }
 
     public ResourceNotFoundException() {

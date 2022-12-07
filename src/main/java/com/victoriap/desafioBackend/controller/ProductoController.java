@@ -23,7 +23,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -45,7 +47,7 @@ public class ProductoController {
                     schema = @Schema(implementation = ErrorGenerico.class))})
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> alta(@RequestBody(description = "Producto a añadir.", required = true,
+    public ResponseEntity<Producto> alta(@RequestBody(description = "Producto a añadir.", required = true,
             content = @Content(
                     schema = @Schema(implementation = CrearProducto.class)))
                                   @Valid @org.springframework.web.bind.annotation.RequestBody CrearProducto productoDTO) throws InternalServerException {
@@ -55,7 +57,8 @@ public class ProductoController {
             logger.info("El producto " + producto.getNombre() + " con ID " + producto.getIdProducto() + " ha sido creado");
             return ResponseEntity.status(HttpStatus.CREATED).body(producto);
         } catch (InternalServerException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("Error en la invocacion de crear productos - " + e.getStatusText());
+            throw new InternalServerException(e.getStatusCode(), e.message, e.getStatusText());
         }
     }
 
@@ -72,10 +75,17 @@ public class ProductoController {
     public ResponseEntity<?> baja(@Parameter(description = "Id del producto a ser eliminado") @PathVariable Integer idProducto) {
         try {
             service.bajaProducto(idProducto);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            logger.info("Producto con ID " + idProducto + " eliminado");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Producto con ID " + idProducto + " eliminado");
+
+        } catch (ResourceNotFoundException e) {
+            logger.error("Error en la invocacion de buscar producto por ID - " + e.getStatusText());
+            throw new ResourceNotFoundException(e.getStatusCode(), e.getMessage(), e.getStatusText());
+
+        } catch (InternalServerException e) {
+            logger.error("Error en la invocacion de buscar producto por ID - " + e.getStatusText());
+            throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/Productos/{idProducto}")
@@ -89,14 +99,20 @@ public class ProductoController {
                     schema = @Schema(implementation = ErrorGenerico.class))})
     })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> encuentraPorId(@Parameter(description = "Id del producto a ser buscado") @PathVariable int idProducto) throws ResourceNotFoundException {
-        ResponseEntity producto = null;
+    public ResponseEntity<Optional<Producto>> encuentraPorId(@Parameter(description = "Id del producto a ser buscado") @PathVariable int idProducto) throws ResourceNotFoundException {
+        Optional<Producto> producto = null;
         try {
             producto = service.findById(idProducto);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            logger.info("Producto ID " + idProducto + "encontrado");
+            return ResponseEntity.status(HttpStatus.OK).body(producto);
+        } catch (ResourceNotFoundException e) {
+            logger.error("Error en la invocacion de buscar producto por ID - " + e.getStatusText());
+            throw new ResourceNotFoundException(e.getStatusCode(), e.getMessage(), e.getStatusText());
+
+        } catch (InternalServerException e) {
+            logger.error("Error en la invocacion de buscar producto por ID - " + e.getStatusText());
+            throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         }
-        return new ResponseEntity<>(producto, HttpStatus.OK);
     }
 
     @GetMapping("/Productos")
@@ -108,11 +124,16 @@ public class ProductoController {
                     schema = @Schema(implementation = ErrorGenerico.class))})
     })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> listaProductos() {
-        List<Producto> res = service.listaProductos();
-        if (res.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<List<Producto>> listaProductos() {
+        List<Producto> listaProductos = new ArrayList<>();
+
+        try {
+            listaProductos = service.listaProductos();
+            logger.info("Existe una lista de productos");
+            return ResponseEntity.status(HttpStatus.OK).body(listaProductos);
+        } catch (InternalServerException e) {
+            logger.error("Error en la invocacion de listar productos - " + e.getStatusText());
+            throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         }
-        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }

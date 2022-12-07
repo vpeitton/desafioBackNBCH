@@ -6,6 +6,7 @@ import com.victoriap.desafioBackend.model.Producto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductoService {
 
@@ -13,7 +14,7 @@ public interface ProductoService {
 
     void bajaProducto(Integer id);
 
-    ResponseEntity findById(Integer id);
+    Optional<Producto> findById(Integer id);
 
     List<Producto> listaProductos();
 
