@@ -7,6 +7,7 @@ import com.victoriap.desafioBackend.model.CrearProducto;
 import com.victoriap.desafioBackend.model.Producto;
 import com.victoriap.desafioBackend.repository.ProductoRepository;
 import com.victoriap.desafioBackend.service.ProductoService;
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,14 @@ import java.util.Optional;
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
-    @Autowired
     ProductoRepository repository;
+    ObjectMapper mapper;
 
     @Autowired
-    ObjectMapper mapper;
+    public ProductoServiceImpl(ProductoRepository repository, ObjectMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(ProductoServiceImpl.class);
 

@@ -33,8 +33,12 @@ import java.util.Optional;
 @Tag(name = "Api productos", description = "APIs Rest para gestionar productos")
 public class ProductoController {
 
-    @Autowired
     ProductoService service;
+
+    @Autowired
+    public ProductoController(ProductoService service) {
+        this.service = service;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(ProductoController.class);
 

@@ -1,0 +1,225 @@
+{
+  "info": {
+    "_postman_id": "26a1e8a2-a910-4308-b55a-298f7e2d0721",
+    "name": "Desafio Backend para NBCH",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20469196"
+  },
+  "item": [
+    {
+      "name": "Crear producto con todo",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nombre\": \"Galletitas\",\r\n    \"descripcion\": \"Galletitas Terrabusi\",\r\n    \"precio\": 450.0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/productos",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "productos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear producto sin nombre",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nombre\": \"\",\r\n    \"descripcion\": \"Galletitas Terrabusi\",\r\n    \"precio\": 450.0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/productos",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "productos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear producto sin descripcion",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nombre\": \"Yerba\",\r\n    \"descripcion\": \"\",\r\n    \"precio\": 250.0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/productos",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "productos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear producto sin precio",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nombre\": \"Galletitas\",\r\n    \"descripcion\": \"Galletitas Terrabusi\",\r\n    \"precio\": 0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/productos",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "productos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar productos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/productos",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "productos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Buscar producto por id correcto",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/productos/{{idCorrecto}}",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "productos",
+            "{{idCorrecto}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Buscar producto por id incorrecto",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/productos/{{idIncorrecto}}",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "productos",
+            "{{idIncorrecto}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar producto por id correcto",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/delete/{{idCorrecto}}",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "delete",
+            "{{idCorrecto}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar producto por id incorrecto",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/delete/{{idIncorrecto}}",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "delete",
+            "{{idIncorrecto}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
