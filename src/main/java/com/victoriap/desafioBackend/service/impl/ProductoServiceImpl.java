@@ -40,10 +40,8 @@ public class ProductoServiceImpl implements ProductoService {
             log.error("El campo de precio está vacío");
             throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "El campo de nombre está vacío o es nulo");
         }
-
         try {
             repository.save(producto);
-
         } catch (InternalServerException e) {
             throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         }
@@ -58,7 +56,6 @@ public class ProductoServiceImpl implements ProductoService {
         }
         try {
             repository.deleteByIdProducto(idProducto);
-
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         } catch (InternalServerException e) {
@@ -75,7 +72,6 @@ public class ProductoServiceImpl implements ProductoService {
             log.warn("No hay registros");
             log.error("No hay registros para el producto con id " + idProducto);
             throw new ResourceNotFoundException(HttpStatus.NOT_FOUND, e.getMessage(), e.getStatusText());
-
         }  catch (InternalServerException e) {
             throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "Error interno del servidor");
         }

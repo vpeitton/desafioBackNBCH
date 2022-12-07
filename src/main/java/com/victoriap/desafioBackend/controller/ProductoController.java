@@ -23,13 +23,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping
 @Tag(name = "Api productos", description = "APIs Rest para gestionar productos")
 public class ProductoController {
 
