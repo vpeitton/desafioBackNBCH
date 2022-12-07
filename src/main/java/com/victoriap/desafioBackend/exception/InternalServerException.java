@@ -1,12 +1,13 @@
 package com.victoriap.desafioBackend.exception;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class InternalServerException extends RuntimeException {
 
     private String code;
