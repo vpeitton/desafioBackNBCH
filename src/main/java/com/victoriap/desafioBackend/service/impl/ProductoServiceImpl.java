@@ -42,7 +42,7 @@ public class ProductoServiceImpl implements ProductoService {
         }
         try {
             repository.save(producto);
-            log.info("El producto " + producto.getNombre() + " con ID " + producto.getIdProducto() + " ha sido creado");
+            log.info("El producto " + producto.getNombre() + " con id " + producto.getIdProducto() + " ha sido creado");
         } catch (InternalServerException e) {
             log.error("Error en la invocacion de crear productos - " + e.getStatusText());
             throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
@@ -53,16 +53,17 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public void bajaProducto(Integer idProducto) throws ResourceNotFoundException {
         if (!repository.existsById(idProducto)) {
-            throw new ResourceNotFoundException("No hay producto con el id " + idProducto);
+            log.error("No se ha encontrado el producto con el id " + idProducto);
+            throw new ResourceNotFoundException(HttpStatus.NOT_FOUND, "El producto no existe" ,"No se ha encontrado el producto con el id " + idProducto);
         }
         try {
             repository.deleteByIdProducto(idProducto);
-            log.info("Producto con ID " + idProducto + " eliminado");
+            log.info("Producto con id " + idProducto + " eliminado");
         } catch (ResourceNotFoundException e) {
-            log.error("Error en la invocacion de buscar producto por ID - " + e.getStatusText());
+            log.error("Error en la invocacion de buscar producto por id - " + e.getStatusText());
             throw new ResourceNotFoundException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         } catch (InternalServerException e) {
-            log.error("Error en la invocacion de buscar producto por ID - " + e.getStatusText());
+            log.error("Error en la invocacion de buscar producto por id - " + e.getStatusText());
             throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "Error interno del servidor");
         }
     }
@@ -72,13 +73,13 @@ public class ProductoServiceImpl implements ProductoService {
         Optional<Producto> producto = null;
         try {
             producto = Optional.ofNullable(repository.findById(idProducto).orElseThrow(ResourceNotFoundException::new));
-            log.info("Producto ID " + idProducto + "encontrado");
+            log.info("Producto id " + idProducto + "encontrado");
         } catch (ResourceNotFoundException e) {
             log.warn("No hay registros");
             log.error("No hay registros para el producto con id " + idProducto);
             throw new ResourceNotFoundException(HttpStatus.NOT_FOUND, e.getMessage(), e.getStatusText());
         }  catch (InternalServerException e) {
-            log.error("Error en la invocacion de buscar producto por ID - " + e.getStatusText());
+            log.error("Error en la invocacion de buscar producto por id - " + e.getStatusText());
             throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "Error interno del servidor");
         }
         return producto;
