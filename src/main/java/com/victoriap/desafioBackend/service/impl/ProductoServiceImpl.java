@@ -32,17 +32,19 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Producto altaProducto(CrearProducto crearProducto) {
         Producto producto = mapper.convertValue(crearProducto, Producto.class);
-        if (crearProducto.getNombre() == null || crearProducto.getNombre().equals("")) {
-            log.error("El campo de nombre está vacío o es nulo");
-            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "El campo de nombre está vacío o es nulo");
-        }
         if (crearProducto.getPrecio() == 0) {
             log.error("El campo de precio está vacío");
             throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "El campo de nombre está vacío o es nulo");
         }
+        if (crearProducto.getNombre().equals("") || crearProducto.getNombre() == null) {
+            log.error("El campo de nombre está vacío o es nulo");
+            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "El campo de nombre está vacío o es nulo");
+        }
         try {
             repository.save(producto);
+            log.info("El producto " + producto.getNombre() + " con ID " + producto.getIdProducto() + " ha sido creado");
         } catch (InternalServerException e) {
+            log.error("Error en la invocacion de crear productos - " + e.getStatusText());
             throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         }
         
@@ -56,9 +58,12 @@ public class ProductoServiceImpl implements ProductoService {
         }
         try {
             repository.deleteByIdProducto(idProducto);
+            log.info("Producto con ID " + idProducto + " eliminado");
         } catch (ResourceNotFoundException e) {
+            log.error("Error en la invocacion de buscar producto por ID - " + e.getStatusText());
             throw new ResourceNotFoundException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         } catch (InternalServerException e) {
+            log.error("Error en la invocacion de buscar producto por ID - " + e.getStatusText());
             throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "Error interno del servidor");
         }
     }
@@ -68,11 +73,13 @@ public class ProductoServiceImpl implements ProductoService {
         Optional<Producto> producto = null;
         try {
             producto = Optional.ofNullable(repository.findById(idProducto).orElseThrow(ResourceNotFoundException::new));
+            log.info("Producto ID " + idProducto + "encontrado");
         } catch (ResourceNotFoundException e) {
             log.warn("No hay registros");
             log.error("No hay registros para el producto con id " + idProducto);
             throw new ResourceNotFoundException(HttpStatus.NOT_FOUND, e.getMessage(), e.getStatusText());
         }  catch (InternalServerException e) {
+            log.error("Error en la invocacion de buscar producto por ID - " + e.getStatusText());
             throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "Error interno del servidor");
         }
         return producto;
@@ -83,11 +90,15 @@ public class ProductoServiceImpl implements ProductoService {
         List<Producto> lista = new ArrayList<>();
         try {
             lista = repository.findAll();
+            log.info("Lista de productos encontrada");
         } catch (InternalServerException e) {
+            log.error("Error en la invocacion del servicio listaProductos - " + e.getStatusText());
             throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         }
-        if (lista != null && lista.isEmpty())
+        if (lista != null && lista.isEmpty()) {
+            log.error("Error en la invocacion del servicio listaProductos - " +"La lista de productos esta vacía");
             throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "La lista de productos esta vacía");
+        }
         return lista;
     }
 }

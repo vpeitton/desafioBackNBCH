@@ -52,8 +52,7 @@ public class ProductoController {
             content = @Content(
                     schema = @Schema(implementation = CrearProducto.class)))
                                   @Valid @org.springframework.web.bind.annotation.RequestBody CrearProducto productoDTO) throws InternalServerException {
-        Producto producto = service.altaProducto(productoDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(producto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.altaProducto(productoDTO));
 
     }
 
@@ -84,8 +83,7 @@ public class ProductoController {
     })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Optional<Producto>> encuentraPorId(@Parameter(description = "Id del producto a ser buscado") @PathVariable int idProducto) throws ResourceNotFoundException {
-        Optional<Producto> producto = service.findById(idProducto);
-        return ResponseEntity.status(HttpStatus.OK).body(producto);
+        return ResponseEntity.status(HttpStatus.OK).body(service.findById(idProducto));
     }
 
     @GetMapping("/Productos")
@@ -98,7 +96,6 @@ public class ProductoController {
     })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Producto>> listaProductos() {
-        List<Producto> listaProductos = service.listaProductos();
-        return ResponseEntity.status(HttpStatus.OK).body(listaProductos);
+        return ResponseEntity.status(HttpStatus.OK).body(service.listaProductos());
     }
 }
