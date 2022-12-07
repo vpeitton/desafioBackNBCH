@@ -29,7 +29,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1")
 @Tag(name = "Api productos", description = "APIs Rest para gestionar productos")
 public class ProductoController {
 
@@ -51,7 +51,7 @@ public class ProductoController {
                     schema = @Schema(implementation = ErrorGenerico.class))})
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Producto> alta(@RequestBody(description = "Producto a añadir.", required = true,
+    public ResponseEntity<Producto> altaProducto(@RequestBody(description = "Producto a añadir.", required = true,
             content = @Content(
                     schema = @Schema(implementation = CrearProducto.class)))
                                   @Valid @org.springframework.web.bind.annotation.RequestBody CrearProducto productoDTO) throws InternalServerException {
@@ -76,7 +76,7 @@ public class ProductoController {
                     schema = @Schema(implementation = ErrorGenerico.class))})
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<?> baja(@Parameter(description = "Id del producto a ser eliminado") @PathVariable Integer idProducto) {
+    public ResponseEntity<?> bajaProducto(@Parameter(description = "Id del producto a ser eliminado") @PathVariable Integer idProducto) {
         try {
             service.bajaProducto(idProducto);
             logger.info("Producto con ID " + idProducto + " eliminado");
