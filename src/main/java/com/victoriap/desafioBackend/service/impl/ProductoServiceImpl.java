@@ -8,11 +8,8 @@ import com.victoriap.desafioBackend.model.Producto;
 import com.victoriap.desafioBackend.repository.ProductoRepository;
 import com.victoriap.desafioBackend.service.ProductoService;
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Log4j2
 public class ProductoServiceImpl implements ProductoService {
 
     ProductoRepository repository;
@@ -31,18 +29,17 @@ public class ProductoServiceImpl implements ProductoService {
         this.mapper = mapper;
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductoServiceImpl.class);
 
     @Override
     public Producto altaProducto(CrearProducto crearProducto) {
         Producto producto = mapper.convertValue(crearProducto, Producto.class);
         if (crearProducto.getNombre() == null || crearProducto.getNombre().equals("")) {
-            logger.error("El campo de nombre está vacío o nulo");
-            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "El campo de nombre está vacío o nulo");
+            log.error("El campo de nombre está vacío o es nulo");
+            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "El campo de nombre está vacío o es nulo");
         }
         if (crearProducto.getPrecio() == 0) {
-            logger.error("El campo de precio está vacío");
-            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "El campo de nombre está vacío o nulo");
+            log.error("El campo de precio está vacío");
+            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "El campo de nombre está vacío o es nulo");
         }
 
         try {
@@ -80,8 +77,8 @@ public class ProductoServiceImpl implements ProductoService {
         try {
             producto = Optional.ofNullable(repository.findById(idProducto).orElseThrow(ResourceNotFoundException::new));
         } catch (ResourceNotFoundException e) {
-            logger.warn("No hay registros");
-            logger.error("No hay registros para el producto con id " + idProducto);
+            log.warn("No hay registros");
+            log.error("No hay registros para el producto con id " + idProducto);
             throw new ResourceNotFoundException(HttpStatus.NOT_FOUND, e.getMessage(), e.getStatusText());
 
         }  catch (InternalServerException e) {
