@@ -29,7 +29,6 @@ public class ProductoServiceImpl implements ProductoService {
         this.mapper = mapper;
     }
 
-
     @Override
     public Producto altaProducto(CrearProducto crearProducto) {
         Producto producto = mapper.convertValue(crearProducto, Producto.class);
@@ -44,10 +43,6 @@ public class ProductoServiceImpl implements ProductoService {
 
         try {
             repository.save(producto);
-
-            if (crearProducto.getDescripcion().equals("") || crearProducto.getDescripcion() == null) {
-                repository.save(producto);
-            }
 
         } catch (InternalServerException e) {
             throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
