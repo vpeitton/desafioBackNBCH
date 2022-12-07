@@ -1,9 +1,7 @@
 package com.victoriap.desafioBackend.service;
 
-import com.victoriap.desafioBackend.exception.ResourceNotFoundException;
-import com.victoriap.desafioBackend.model.CrearProducto;
-import com.victoriap.desafioBackend.model.Producto;
-import org.springframework.http.ResponseEntity;
+import com.victoriap.desafioBackend.model.dto.CrearProducto;
+import com.victoriap.desafioBackend.model.entity.Producto;
 
 import java.util.List;
 import java.util.Optional;

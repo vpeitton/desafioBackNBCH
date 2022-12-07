@@ -1,4 +1,4 @@
-package com.victoriap.desafioBackend.model;
+package com.victoriap.desafioBackend.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;

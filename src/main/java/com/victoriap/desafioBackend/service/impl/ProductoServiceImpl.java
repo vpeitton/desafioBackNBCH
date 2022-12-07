@@ -3,8 +3,8 @@ package com.victoriap.desafioBackend.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.victoriap.desafioBackend.exception.InternalServerException;
 import com.victoriap.desafioBackend.exception.ResourceNotFoundException;
-import com.victoriap.desafioBackend.model.CrearProducto;
-import com.victoriap.desafioBackend.model.Producto;
+import com.victoriap.desafioBackend.model.dto.CrearProducto;
+import com.victoriap.desafioBackend.model.entity.Producto;
 import com.victoriap.desafioBackend.repository.ProductoRepository;
 import com.victoriap.desafioBackend.service.ProductoService;
 import lombok.extern.log4j.Log4j2;
@@ -47,7 +47,6 @@ public class ProductoServiceImpl implements ProductoService {
             log.error("Error en la invocacion de crear productos - " + e.getStatusText());
             throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
         }
-        
         return producto;
     }
 
