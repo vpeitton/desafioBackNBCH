@@ -34,15 +34,24 @@ public class ProductoServiceImpl implements ProductoService {
         Producto producto = mapper.convertValue(crearProducto, Producto.class);
         if (crearProducto.getNombre() == null || crearProducto.getNombre().equals("")) {
             logger.error("El campo de nombre está vacío o nulo");
-            throw new InternalServerException("El campo de nombre está vacío o nulo");
-        } else if (crearProducto.getPrecio() == 0) {
-            logger.error("El campo de precio está vacío");
-            throw new InternalServerException("El campo de precio está vacío");
-        } else if (crearProducto.getDescripcion().equals("") || crearProducto.getDescripcion() == null) {
-            repository.save(producto);
-        } else {
-            repository.save(producto);
+            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "El campo de nombre está vacío o nulo");
         }
+        if (crearProducto.getPrecio() == 0) {
+            logger.error("El campo de precio está vacío");
+            throw new InternalServerException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", "El campo de nombre está vacío o nulo");
+        }
+
+        try {
+            repository.save(producto);
+
+            if (crearProducto.getDescripcion().equals("") || crearProducto.getDescripcion() == null) {
+                repository.save(producto);
+            }
+
+        } catch (InternalServerException e) {
+            throw new InternalServerException(e.getStatusCode(), e.getMessage(), e.getStatusText());
+        }
+        
         return producto;
     }
 
