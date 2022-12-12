@@ -3,8 +3,9 @@
 Sistema de API Rest para productos.
 
 ## Requisitos previos:
-    - Tener instalado Docker Desktop.
-    - Utilizar como IDE IntelliJ IDEA.
+    - Tener instalado Docker Desktop;
+    - utilizar como IDE IntelliJ IDEA;
+    - tener instalado el plugin de Docker en el IDE.
 
 ## Pasos para la ejecucion:
 
